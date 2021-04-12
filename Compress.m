@@ -3,6 +3,7 @@
 function [compressedIntVec] = Compress(originalVec)
     % diffing
     diffVec = CalculateDifference(originalVec);
+    disp('array of differences:')
     diffVec
     diffVecLength = length(diffVec);
     counter = 1;
@@ -20,9 +21,8 @@ function [compressedIntVec] = Compress(originalVec)
                 loopEndNum = binaryLength;
             end
             
-            %popunjavanje bajta
+            %one byte
             for k = 1:1:loopEndNum
-                %byte(k + 1) = binary(binaryLength - 7 + k);
                 byte(8 - k + 1) = binary(binaryLength - k + 1);
                 binary(binaryLength - k + 1) = [];
             end
@@ -31,10 +31,8 @@ function [compressedIntVec] = Compress(originalVec)
             compressedIntVec(:,counter) = ToDecimal(byte);
             counter = counter + 1;
             binaryLength = binaryLength - 7;
-        end
-        
-    end
-    
+        end       
+    end    
     compressedIntVec = uint8(compressedIntVec);
 end
 

@@ -11,12 +11,12 @@ function [originalVec] = Decompress(compressedVec)
     lastByteCol = 1;
     count = 1;
     while(lastByteCol <= colNum)
-        while (compressedBitVec(1, lastByteCol) == 1) % || (compressedBitVec(1, lastByteCol) == 1 && compressedBitVec(1, lastByteCol + 1) == 0))
+        while (compressedBitVec(1, lastByteCol) == 1)
             lastByteCol = lastByteCol + 1;
         end
         
         if lastByteCol == firstByteCol
-           compressedBitVec(1, lastByteCol) = 0; % da ne kvari racunanje
+           compressedBitVec(1, lastByteCol) = 0; % removing indicator bit influence
            diffVec(count) = ToDecimal(compressedBitVec(:, lastByteCol));
            %compressedBitVec(:, lastByteCol)
            count = count + 1;
@@ -38,10 +38,6 @@ function [originalVec] = Decompress(compressedVec)
         firstByteCol = lastByteCol;
     end
     
-    
-    
-    
-    %originalVec = compressedBitVec;
     originalVec = RestoreOriginal(diffVec);
     originalVec = uint64(originalVec);
 end
